@@ -9,47 +9,26 @@
 
   <style>
     body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #EAFBFA; /* soft page background */
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .widget-container {
+      background: #BAE8E3; /* widget background */
+      border-radius: 20px; /* rounded edges */
+      padding: 20px 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* soft shadow */
       text-align: center;
-      margin: 30px;
-      background: #BAE8E3;
-      font-family: Arial, sans-serif; /* fallback base font */
+      max-width: 350px;
     }
 
     /* Title styled with Fascinate */
     #time_is_link {
       font-size: 24px;
       color: #A30088;
-      background: #BAE8E3;
-      font-family: 'Fascinate', cursive;
-    }
-
-    /* Clock text styled with Kablammo */
-    #Philadelphia_z161 {
-      font-size: 26px;
-      color: #A30088;
-      background: #BAE8E3;
-      font-family: 'Kablammo', cursive;
-    }
-  </style>
-</head>
-<body>
-  <a href="https://time.is/Philadelphia" id="time_is_link" rel="nofollow">
-    Time in Philadelphia:
-  </a>
-  <br>
-  <span id="Philadelphia_z161"></span>
-
-  <script src="https://widget.time.is/en.js"></script>
-  <script>
-    time_is_widget.init({
-      Philadelphia_z161:{
-        template:"TIME<br>DATE<br>SUN",
-        time_format:"12hours:minutesAMPM",
-        date_format:"dayname monthnum/daynum/yy",
-        sun_format:"Sunrise: srhour:srminute Sunset: sshour:ssminute",
-        coords:"39.9523800,-75.1636200"
-      }
-    });
-  </script>
-</body>
-</html>
+      text
