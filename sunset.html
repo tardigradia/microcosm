@@ -4,22 +4,31 @@
   <meta charset="UTF-8">
   <title>Sunset Clock Widget</title>
 
-  <!-- Correct Google Fonts link for Kablammo -->
-  <link href="https://fonts.googleapis.com/css2?family=Kablammo&display=swap" rel="stylesheet">
+  <!-- Import Kablammo + Fascinate from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=Kablammo&display=swap" rel="stylesheet">
 
   <style>
     body {
       text-align: center;
       margin: 30px;
       background: #BAE8E3;
-      font-family: 'Kablammo', cursive; /* 👈 apply Kablammo */
+      font-family: Arial, sans-serif; /* fallback base font */
     }
 
-    #time_is_link, #Philadelphia_z161 {
-      font-size: 22px;
+    /* Title styled with Fascinate */
+    #time_is_link {
+      font-size: 24px;
       color: #A30088;
       background: #BAE8E3;
-      font-weight: 600;
+      font-family: 'Fascinate', cursive;
+    }
+
+    /* Clock text styled with Kablammo */
+    #Philadelphia_z161 {
+      font-size: 26px;
+      color: #A30088;
+      background: #BAE8E3;
+      font-family: 'Kablammo', cursive;
     }
   </style>
 </head>
