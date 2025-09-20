@@ -31,4 +31,39 @@
     #time_is_link {
       font-size: 24px;
       color: #A30088;
-      text
+      text-decoration: none;
+      font-family: 'Fascinate', cursive;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    /* Clock text styled with Kablammo */
+    #Philadelphia_z161 {
+      font-size: 26px;
+      color: #A30088;
+      font-family: 'Kablammo', cursive;
+    }
+  </style>
+</head>
+<body>
+  <div class="widget-container">
+    <a href="https://time.is/Philadelphia" id="time_is_link" rel="nofollow">
+      Time in Philadelphia:
+    </a>
+    <span id="Philadelphia_z161"></span>
+  </div>
+
+  <script src="https://widget.time.is/en.js"></script>
+  <script>
+    time_is_widget.init({
+      Philadelphia_z161:{
+        template:"TIME<br>DATE<br>SUN",
+        time_format:"12hours:minutesAMPM",
+        date_format:"dayname monthnum/daynum/yy",
+        sun_format:"Sunrise: srhour:srminute Sunset: sshour:ssminute",
+        coords:"39.9523800,-75.1636200"
+      }
+    });
+  </script>
+</body>
+</html>
