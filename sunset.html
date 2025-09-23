@@ -24,18 +24,13 @@
       padding: 20px 30px;
       text-align: center;
       max-width: 350px;
-      border: 2px solid #A30088; /* default fallback */
-      transition: all 0.5s ease-in-out;
+      border: 2px solid #A30088;
+      transition: all 0.3s ease-in-out;
     }
 
-    /* Hover glow handled dynamically with classes */
-    .widget-container.day:hover {
-      box-shadow: 0 0 20px 5px rgba(255, 79, 120, 0.6); /* warm glow */
-      border-color: #ff4f78;
-    }
-    .widget-container.night:hover {
-      box-shadow: 0 0 20px 5px rgba(0, 207, 255, 0.6); /* cool glow */
-      border-color: #00cfff;
+    .widget-container:hover {
+      box-shadow: 0 0 20px 5px rgba(163, 0, 136, 0.6);
+      border-color: #ff4fc3;
     }
 
     /* Title in Fascinate */
@@ -68,22 +63,25 @@
       background-clip: text;
       text-fill-color: transparent;
       animation: glowShift 5s infinite alternate ease-in-out;
-      transition: background 0.5s ease-in-out;
     }
 
-    /* Day gradient (orange → red → pink) */
+    /* Day gradient (orange → pink) */
     .day-gradient {
-      background: linear-gradient(90deg, #FF8A00, #FF004D, #FF4FC3);
+      background: linear-gradient(90deg, #FF8A00, #FF4FC3);
     }
 
-    /* Night gradient (green → blue) */
+    /* Night gradient (purple → blue) */
     .night-gradient {
-      background: linear-gradient(90deg, #00FF99, #00CFFF);
+      background: linear-gradient(90deg, #8A2BE2, #00CFFF);
     }
 
     @keyframes glowShift {
-      0% { text-shadow: 0 0 2px rgba(255, 138, 0, 0.4); }
-      100% { text-shadow: 0 0 4px rgba(255, 79, 195, 0.6); }
+      0% {
+        text-shadow: 0 0 2px rgba(255, 138, 0, 0.4);
+      }
+      100% {
+        text-shadow: 0 0 4px rgba(255, 79, 195, 0.6);
+      }
     }
 
     /* Force true transparency for the widget background */
@@ -95,7 +93,7 @@
   </style>
 </head>
 <body>
-  <div class="widget-container" id="widgetBox">
+  <div class="widget-container">
     <a href="https://time.is/Philadelphia" id="time_is_link" rel="nofollow">
       Time in Philadelphia:
     </a>
@@ -114,31 +112,26 @@
       }
     });
 
-    // 🌞🌙 Switch gradient + border based on local time
-    function updateTheme() {
+    // 🌞🌙 Switch gradient based on local time
+    function updateGradient() {
       const hour = new Date().getHours();
       const sunTimes = document.querySelector('.sun-times');
-      const widgetBox = document.getElementById('widgetBox');
-      if (!sunTimes || !widgetBox) return;
+      if (!sunTimes) return;
 
       if (hour >= 6 && hour < 18) {
-        // Daytime: warm orange-red-pink
+        // Daytime
         sunTimes.classList.add('day-gradient');
         sunTimes.classList.remove('night-gradient');
-        widgetBox.classList.add('day');
-        widgetBox.classList.remove('night');
       } else {
-        // Nighttime: green-blue
+        // Nighttime
         sunTimes.classList.add('night-gradient');
         sunTimes.classList.remove('day-gradient');
-        widgetBox.classList.add('night');
-        widgetBox.classList.remove('day');
       }
     }
 
     // Run now + update every 15 min
-    setInterval(updateTheme, 900000);
-    setTimeout(updateTheme, 1000);
+    setInterval(updateGradient, 900000);
+    setTimeout(updateGradient, 1000);
   </script>
 </body>
 </html>
