@@ -51,37 +51,29 @@
       color: #A30088;
     }
 
-    /* Alternative: Use mask technique for gradients */
+    /* Bagel Fat One font for sunrise/sunset */
     .sunrise-sunset-text {
       display: block;
       margin-top: 8px;
       font-family: "Bagel Fat One", system-ui;
+      font-weight: 400;
+      font-style: normal;
       font-size: 22px;
-      position: relative;
-      transition: all 0.5s ease-in-out;
+      transition: color 0.5s ease-in-out;
     }
 
-    .gradient-mask {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      mix-blend-mode: multiply;
-      pointer-events: none;
+    .sunrise-sunset-text.day {
+      color: #FF4FC3; /* Pink color for day */
     }
 
-    .gradient-mask.day {
-      background: linear-gradient(90deg, #FF8A00, #FF004D, #FF4FC3);
-    }
-
-    .gradient-mask.night {
-      background: linear-gradient(90deg, #00FF99, #00CFFF);
+    .sunrise-sunset-text.night {
+      color: #00CFFF; /* Blue color for night */
     }
 
     #Philadelphia_z161 * {
       background: transparent !important;
       border: none !important;
+      font-family: inherit !important;
     }
   </style>
 </head>
@@ -113,22 +105,24 @@
       
       if (!sunTextElement || !widgetBox || !title) return;
 
-      // Set text color to white for the gradient mask to work
-      sunTextElement.style.color = hour >= 6 && hour < 18 ? '#ffffff' : '#ffffff';
-
       if (hour >= 6 && hour < 18) {
         // Day
+        sunTextElement.classList.add('day');
+        sunTextElement.classList.remove('night');
         widgetBox.classList.add('day');
         widgetBox.classList.remove('night');
         title.style.color = "#ff4f78";
       } else {
         // Night
+        sunTextElement.classList.add('night');
+        sunTextElement.classList.remove('day');
         widgetBox.classList.add('night');
         widgetBox.classList.remove('day');
         title.style.color = "#00cfff";
       }
     }
 
+    // Initialize after widget loads
     setTimeout(updateTheme, 1000);
     setInterval(updateTheme, 900000);
   </script>
