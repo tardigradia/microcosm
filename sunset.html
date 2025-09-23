@@ -51,46 +51,37 @@
       color: #A30088;
     }
 
-    /* Gradient text with stronger specificity */
+    /* Alternative: Use mask technique for gradients */
     .sunrise-sunset-text {
       display: block;
       margin-top: 8px;
       font-family: "Bagel Fat One", system-ui;
       font-size: 22px;
-      font-weight: normal;
+      position: relative;
       transition: all 0.5s ease-in-out;
-      
-      /* Default gradient */
-      background: linear-gradient(90deg, #FF8A00, #FF004D, #FF4FC3) !important;
-      -webkit-background-clip: text !important;
-      -webkit-text-fill-color: transparent !important;
-      background-clip: text !important;
     }
 
-    /* More specific gradient overrides */
-    .sunrise-sunset-text.day {
-      background: linear-gradient(90deg, #FF8A00, #FF004D, #FF4FC3) !important;
+    .gradient-mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      mix-blend-mode: multiply;
+      pointer-events: none;
     }
 
-    .sunrise-sunset-text.night {
-      background: linear-gradient(90deg, #00FF99, #00CFFF) !important;
+    .gradient-mask.day {
+      background: linear-gradient(90deg, #FF8A00, #FF004D, #FF4FC3);
     }
 
-    /* Nuclear option: override everything from the widget */
-    #Philadelphia_z161 .sunrise-sunset-text,
-    #Philadelphia_z161 span.sunrise-sunset-text {
-      background: linear-gradient(90deg, #FF8A00, #FF004D, #FF4FC3) !important;
-      -webkit-background-clip: text !important;
-      -webkit-text-fill-color: transparent !important;
-      background-clip: text !important;
-      color: transparent !important;
-      text-shadow: none !important;
+    .gradient-mask.night {
+      background: linear-gradient(90deg, #00FF99, #00CFFF);
     }
 
     #Philadelphia_z161 * {
       background: transparent !important;
       border: none !important;
-      font-family: inherit !important;
     }
   </style>
 </head>
@@ -122,43 +113,23 @@
       
       if (!sunTextElement || !widgetBox || !title) return;
 
+      // Set text color to white for the gradient mask to work
+      sunTextElement.style.color = hour >= 6 && hour < 18 ? '#ffffff' : '#ffffff';
+
       if (hour >= 6 && hour < 18) {
         // Day
-        sunTextElement.classList.add('day');
-        sunTextElement.classList.remove('night');
         widgetBox.classList.add('day');
         widgetBox.classList.remove('night');
         title.style.color = "#ff4f78";
       } else {
         // Night
-        sunTextElement.classList.add('night');
-        sunTextElement.classList.remove('day');
         widgetBox.classList.add('night');
         widgetBox.classList.remove('day');
         title.style.color = "#00cfff";
       }
     }
 
-    // Force apply gradients after widget loads
-    function forceGradients() {
-      const sunTextElement = document.querySelector('.sunrise-sunset-text');
-      if (sunTextElement) {
-        // Re-apply the gradient styles
-        sunTextElement.style.background = 'linear-gradient(90deg, #FF8A00, #FF004D, #FF4FC3)';
-        sunTextElement.style.webkitBackgroundClip = 'text';
-        sunTextElement.style.backgroundClip = 'text';
-        sunTextElement.style.webkitTextFillColor = 'transparent';
-        sunTextElement.style.color = 'transparent';
-        
-        updateTheme();
-      }
-    }
-
-    setTimeout(() => {
-      updateTheme();
-      forceGradients();
-    }, 1000);
-    
+    setTimeout(updateTheme, 1000);
     setInterval(updateTheme, 900000);
   </script>
 </body>
