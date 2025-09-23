@@ -24,7 +24,7 @@
       padding: 20px 30px;
       text-align: center;
       max-width: 350px;
-      border: 2px solid #A30088;
+      border: 2px solid #A30088; /* fallback */
       transition: all 0.5s ease-in-out;
     }
 
@@ -55,7 +55,7 @@
       color: #A30088;
     }
 
-    /* Sunrise & sunset in Bagel Fat One - FIXED */
+    /* Sunrise & sunset in Bagel Fat One - CLEAN */
     #Philadelphia_z161 .sun-times {
       display: block;
       margin-top: 8px;
@@ -67,45 +67,15 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-fill-color: transparent;
-      background-size: 100% 100%; /* Fixes gradient rendering */
-      background-repeat: no-repeat;
-      /* Removed blurry text-shadow animation */
       transition: background 0.5s ease-in-out;
-      text-shadow: none; /* Ensure no blurry shadows */
     }
 
-    /* Gradients with better contrast */
+    /* Gradients */
     .day-gradient {
       background: linear-gradient(90deg, #FF8A00, #FF004D, #FF4FC3);
-      background-size: 100% 100%;
     }
     .night-gradient {
       background: linear-gradient(90deg, #00FF99, #00CFFF);
-      background-size: 100% 100%;
-    }
-
-    /* Optional: Subtle glow effect without blur */
-    .sun-times {
-      position: relative;
-      display: inline-block;
-    }
-    
-    /* Clean glow effect instead of blurry shadow */
-    .sun-times::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: inherit;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      z-index: -1;
-      opacity: 0.7;
-      filter: blur(3px);
-      transform: scale(1.02);
     }
 
     /* Transparency fix */
@@ -113,13 +83,6 @@
     #Philadelphia_z161 * {
       background: transparent !important;
       border: none !important;
-    }
-    
-    /* Improve text rendering */
-    .sun-times {
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
     }
   </style>
 </head>
@@ -156,14 +119,14 @@
         sunTimes.classList.remove('night-gradient');
         widgetBox.classList.add('day');
         widgetBox.classList.remove('night');
-        title.style.color = "#ff4f78";
+        title.style.color = "#ff4f78"; // warm pink
       } else {
         // Night
         sunTimes.classList.add('night-gradient');
         sunTimes.classList.remove('day-gradient');
         widgetBox.classList.add('night');
         widgetBox.classList.remove('day');
-        title.style.color = "#00cfff";
+        title.style.color = "#00cfff"; // aqua-blue
       }
     }
 
