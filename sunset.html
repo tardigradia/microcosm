@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Sunset Clock Widget</title>
 
-  <!-- Import all three fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=Kablammo&family=Bagel+Fat+One&display=swap" rel="stylesheet">
 
   <style>
@@ -28,7 +27,6 @@
       transition: all 0.5s ease-in-out;
     }
 
-    /* Hover glow */
     .widget-container.day:hover {
       box-shadow: 0 0 20px 5px rgba(255, 79, 120, 0.6);
       border-color: #ff4f78;
@@ -38,7 +36,6 @@
       border-color: #00cfff;
     }
 
-    /* Title in Fascinate */
     #time_is_link {
       font-size: 24px;
       text-decoration: none;
@@ -48,49 +45,34 @@
       transition: color 0.5s ease-in-out;
     }
 
-    /* Clock + date in Kablammo */
     #Philadelphia_z161 {
       font-size: 26px;
       font-family: 'Kablammo', cursive;
       color: #A30088;
     }
 
-    /* Sunrise & sunset in Bagel Fat One - FIXED */
-    #Philadelphia_z161 .sun-times {
+    /* Simple color approach instead of gradients */
+    .sunrise-sunset-text {
       display: block;
       margin-top: 8px;
       font-family: "Bagel Fat One", system-ui;
-      font-weight: 400;
-      font-style: normal;
       font-size: 22px;
-      /* Gradient text properties */
-      background: linear-gradient(90deg, #FF8A00, #FF004D, #FF4FC3); /* Default day gradient */
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      transition: background 0.5s ease-in-out;
+      font-weight: normal;
+      transition: color 0.5s ease-in-out;
     }
 
-    /* Gradient classes for theme switching */
-    .sun-times.day-gradient {
-      background: linear-gradient(90deg, #FF8A00, #FF004D, #FF4FC3);
-    }
-    .sun-times.night-gradient {
-      background: linear-gradient(90deg, #00FF99, #00CFFF);
+    .sunrise-sunset-text.day {
+      color: #FF4FC3; /* Pink color for day */
     }
 
-    /* Ensure gradient text works across browsers */
-    .sun-times {
-      -webkit-background-clip: text !important;
-      background-clip: text !important;
-      -webkit-text-fill-color: transparent !important;
+    .sunrise-sunset-text.night {
+      color: #00CFFF; /* Blue color for night */
     }
 
-    /* Transparency fix */
-    #Philadelphia_z161, 
     #Philadelphia_z161 * {
       background: transparent !important;
       border: none !important;
+      font-family: inherit !important;
     }
   </style>
 </head>
@@ -106,7 +88,7 @@
   <script>
     time_is_widget.init({
       Philadelphia_z161:{
-        template:"TIME<br>DATE<br><span class='sun-times'>SUN</span>",
+        template:"TIME<br>DATE<br><span class='sunrise-sunset-text'>SUN</span>",
         time_format:"12hours:minutesAMPM",
         date_format:"dayname monthnum/daynum/yy",
         sun_format:"Sunrise: srhour:srminute Sunset: sshour:ssminute",
@@ -116,30 +98,31 @@
 
     function updateTheme() {
       const hour = new Date().getHours();
-      const sunTimes = document.querySelector('.sun-times');
+      const sunTextElement = document.querySelector('.sunrise-sunset-text');
       const widgetBox = document.getElementById('widgetBox');
       const title = document.getElementById('time_is_link');
-      if (!sunTimes || !widgetBox || !title) return;
+      
+      if (!sunTextElement || !widgetBox || !title) return;
 
       if (hour >= 6 && hour < 18) {
         // Day
-        sunTimes.classList.add('day-gradient');
-        sunTimes.classList.remove('night-gradient');
+        sunTextElement.classList.add('day');
+        sunTextElement.classList.remove('night');
         widgetBox.classList.add('day');
         widgetBox.classList.remove('night');
         title.style.color = "#ff4f78";
       } else {
         // Night
-        sunTimes.classList.add('night-gradient');
-        sunTimes.classList.remove('day-gradient');
+        sunTextElement.classList.add('night');
+        sunTextElement.classList.remove('day');
         widgetBox.classList.add('night');
         widgetBox.classList.remove('day');
         title.style.color = "#00cfff";
       }
     }
 
-    // Initialize with correct theme immediately
-    updateTheme();
+    // Initialize after widget loads
+    setTimeout(updateTheme, 1000);
     setInterval(updateTheme, 900000);
   </script>
 </body>
