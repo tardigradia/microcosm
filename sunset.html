@@ -51,32 +51,42 @@
       color: #A30088;
     }
 
-    /* SIMPLIFIED: Use a wrapper span for the gradient text */
+    /* Gradient text with stronger specificity */
     .sunrise-sunset-text {
       display: block;
       margin-top: 8px;
       font-family: "Bagel Fat One", system-ui;
       font-size: 22px;
       font-weight: normal;
+      transition: all 0.5s ease-in-out;
+      
+      /* Default gradient */
+      background: linear-gradient(90deg, #FF8A00, #FF004D, #FF4FC3) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      background-clip: text !important;
     }
 
-    /* Gradient styles */
-    .gradient-text {
-      background: linear-gradient(90deg, #FF8A00, #FF004D, #FF4FC3);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    /* More specific gradient overrides */
+    .sunrise-sunset-text.day {
+      background: linear-gradient(90deg, #FF8A00, #FF004D, #FF4FC3) !important;
     }
 
-    .gradient-text.day {
-      background: linear-gradient(90deg, #FF8A00, #FF004D, #FF4FC3);
+    .sunrise-sunset-text.night {
+      background: linear-gradient(90deg, #00FF99, #00CFFF) !important;
     }
 
-    .gradient-text.night {
-      background: linear-gradient(90deg, #00FF99, #00CFFF);
+    /* Nuclear option: override everything from the widget */
+    #Philadelphia_z161 .sunrise-sunset-text,
+    #Philadelphia_z161 span.sunrise-sunset-text {
+      background: linear-gradient(90deg, #FF8A00, #FF004D, #FF4FC3) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      background-clip: text !important;
+      color: transparent !important;
+      text-shadow: none !important;
     }
 
-    /* Override any widget styles */
     #Philadelphia_z161 * {
       background: transparent !important;
       border: none !important;
@@ -94,7 +104,6 @@
 
   <script src="https://widget.time.is/en.js"></script>
   <script>
-    // Initialize the widget first
     time_is_widget.init({
       Philadelphia_z161:{
         template:"TIME<br>DATE<br><span class='sunrise-sunset-text'>SUN</span>",
@@ -104,22 +113,6 @@
         coords:"39.9523800,-75.1636200"
       }
     });
-
-    // Wait for widget to load, then apply gradients
-    function initializeWidget() {
-      const sunTextElement = document.querySelector('.sunrise-sunset-text');
-      const widgetBox = document.getElementById('widgetBox');
-      const title = document.getElementById('time_is_link');
-      
-      if (sunTextElement) {
-        // Add gradient class to the sunrise/sunset text
-        sunTextElement.classList.add('gradient-text');
-        updateTheme();
-      } else {
-        // Retry if element not found yet
-        setTimeout(initializeWidget, 100);
-      }
-    }
 
     function updateTheme() {
       const hour = new Date().getHours();
@@ -146,8 +139,26 @@
       }
     }
 
-    // Start initialization
-    setTimeout(initializeWidget, 500);
+    // Force apply gradients after widget loads
+    function forceGradients() {
+      const sunTextElement = document.querySelector('.sunrise-sunset-text');
+      if (sunTextElement) {
+        // Re-apply the gradient styles
+        sunTextElement.style.background = 'linear-gradient(90deg, #FF8A00, #FF004D, #FF4FC3)';
+        sunTextElement.style.webkitBackgroundClip = 'text';
+        sunTextElement.style.backgroundClip = 'text';
+        sunTextElement.style.webkitTextFillColor = 'transparent';
+        sunTextElement.style.color = 'transparent';
+        
+        updateTheme();
+      }
+    }
+
+    setTimeout(() => {
+      updateTheme();
+      forceGradients();
+    }, 1000);
+    
     setInterval(updateTheme, 900000);
   </script>
 </body>
