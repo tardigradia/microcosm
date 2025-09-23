@@ -8,13 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Fascinate&family=Kablammo&family=Bagel+Fat+One&display=swap" rel="stylesheet">
 
   <style>
-    /* Force true transparency for the widget */
-#Philadelphia_z161, 
-#Philadelphia_z161 * {
-  background: transparent !important;
-  border: none !important;
-}
-
     body {
       display: flex;
       justify-content: center;
@@ -57,7 +50,7 @@
       font-family: 'Kablammo', cursive;
     }
 
-    /* Sunrise & sunset in Bagel Fat One with gradient */
+    /* Sunrise & sunset in Bagel Fat One */
     #Philadelphia_z161 .sun-times {
       display: block;
       margin-top: 8px;
@@ -65,7 +58,6 @@
       font-weight: 400;
       font-style: normal;
       font-size: 22px;
-      background: linear-gradient(90deg, #FF8A00, #FF4FC3);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -73,14 +65,30 @@
       animation: glowShift 5s infinite alternate ease-in-out;
     }
 
-    /* subtle shifting glow */
+    /* Day gradient (orange → pink) */
+    .day-gradient {
+      background: linear-gradient(90deg, #FF8A00, #FF4FC3);
+    }
+
+    /* Night gradient (purple → blue) */
+    .night-gradient {
+      background: linear-gradient(90deg, #8A2BE2, #00CFFF);
+    }
+
     @keyframes glowShift {
       0% {
-        text-shadow: 0 0 5px rgba(255, 138, 0, 0.5);
+        text-shadow: 0 0 2px rgba(255, 138, 0, 0.4);
       }
       100% {
-        text-shadow: 0 0 15px rgba(255, 79, 195, 0.8);
+        text-shadow: 0 0 4px rgba(255, 79, 195, 0.6);
       }
+    }
+
+    /* Force true transparency for the widget background */
+    #Philadelphia_z161, 
+    #Philadelphia_z161 * {
+      background: transparent !important;
+      border: none !important;
     }
   </style>
 </head>
@@ -103,6 +111,27 @@
         coords:"39.9523800,-75.1636200"
       }
     });
+
+    // 🌞🌙 Switch gradient based on local time
+    function updateGradient() {
+      const hour = new Date().getHours();
+      const sunTimes = document.querySelector('.sun-times');
+      if (!sunTimes) return;
+
+      if (hour >= 6 && hour < 18) {
+        // Daytime
+        sunTimes.classList.add('day-gradient');
+        sunTimes.classList.remove('night-gradient');
+      } else {
+        // Nighttime
+        sunTimes.classList.add('night-gradient');
+        sunTimes.classList.remove('day-gradient');
+      }
+    }
+
+    // Run now + update every 15 min
+    setInterval(updateGradient, 900000);
+    setTimeout(updateGradient, 1000);
   </script>
 </body>
 </html>
